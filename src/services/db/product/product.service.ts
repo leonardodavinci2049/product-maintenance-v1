@@ -2,8 +2,8 @@ import "server-only";
 
 import { envs } from "@/core/config/envs";
 import dbService from "@/database/dbConnection";
-import { PRODUCT_LIST_SQL } from "./query/product-find_list";
 import { PRODUCT_FIND_ID_SQL } from "./query/product_find_id";
+import { PRODUCT_LIST_SQL } from "./query/product-find_list";
 import type {
   ProductDetail,
   ProductListItem,
