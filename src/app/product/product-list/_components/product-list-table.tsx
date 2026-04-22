@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   Table,
@@ -64,7 +67,7 @@ export function ProductListTable({ products }: ProductListTableProps) {
                   )}
                 </div>
 
-                <p className="mt-0.5 text-[13px] font-semibold leading-5 text-foreground break-words">
+                <p className="mt-0.5 text-[13px] font-semibold leading-5 text-foreground wrap-break-word">
                   {product.PRODUTO ?? "-"}
                 </p>
 
@@ -94,6 +97,12 @@ export function ProductListTable({ products }: ProductListTableProps) {
                     </span>
                   </div>
                 </div>
+
+                <div className="mt-2">
+                  <Button asChild size="xs" variant="outline" className="h-6">
+                    <Link href={`/product/${product.ID_PRODUTO}`}>Ver detalhes</Link>
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
@@ -112,6 +121,7 @@ export function ProductListTable({ products }: ProductListTableProps) {
               <TableHead className="w-28">Varejo</TableHead>
               <TableHead className="w-28">Atacado</TableHead>
               <TableHead className="w-28">Corp.</TableHead>
+              <TableHead className="w-28 text-right">Ação</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -124,7 +134,7 @@ export function ProductListTable({ products }: ProductListTableProps) {
                 </TableCell>
                 <TableCell className="align-top">
                   <div className="space-y-0.5">
-                    <p className="font-medium leading-5 text-foreground break-words">
+                    <p className="font-medium leading-5 text-foreground wrap-break-word">
                       {product.PRODUTO ?? "-"}
                     </p>
                     {(product.REF || product.MODELO) && (
@@ -175,6 +185,11 @@ export function ProductListTable({ products }: ProductListTableProps) {
                   <span className="text-sm font-medium text-orange-600 dark:text-orange-400">
                     {formatPrice(product.VL_CORPORATIVO)}
                   </span>
+                </TableCell>
+                <TableCell className="text-right">
+                  <Button asChild size="xs" variant="outline">
+                    <Link href={`/product/${product.ID_PRODUTO}`}>Ver detalhes</Link>
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
