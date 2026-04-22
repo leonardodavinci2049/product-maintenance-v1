@@ -15,7 +15,7 @@ import { cn } from "@/lib/utils";
 import ModeToggle from "../theme/mode-toggle";
 
 const TopMenu = [
-  { id: "features", name: "Features", href: "#features" },
+  { id: "product-list", name: "Lista de produtos", href: "/product/product-list" },
   { id: "pricing", name: "Pricing", href: "#pricing" },
   { id: "faq", name: "FAQ", href: "#faq" },
 ];

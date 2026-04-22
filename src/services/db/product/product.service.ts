@@ -2,8 +2,10 @@ import "server-only";
 
 import { envs } from "@/core/config/envs";
 import dbService from "@/database/dbConnection";
-import { PRODUCT_LIST_SQL } from "./query/product-list";
+import { PRODUCT_LIST_SQL } from "./query/product-find_list";
+import { PRODUCT_FIND_ID_SQL } from "./query/product_find_id";
 import type {
+  ProductDetail,
   ProductListItem,
   ProductListParams,
 } from "./types/product-list.types";
@@ -27,4 +29,22 @@ export async function getProductList(
   ];
 
   return dbService.selectQuery<ProductListItem>(PRODUCT_LIST_SQL, queryParams);
+}
+
+export async function getProductById(
+  id: number,
+): Promise<ProductDetail | null> {
+  const clientId = envs.CLIENT_ID;
+
+  const queryParams = [
+    clientId, // PE_SYSTEM_CLIENT_ID
+    id, // PE_ID_PRODUTO
+  ];
+
+  const rows = await dbService.selectQuery<ProductDetail>(
+    PRODUCT_FIND_ID_SQL,
+    queryParams,
+  );
+
+  return rows[0] ?? null;
 }

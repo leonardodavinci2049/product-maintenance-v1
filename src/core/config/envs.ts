@@ -3,6 +3,7 @@ import { z } from "zod";
 const serverEnvsSchema = z.object({
   PORT: z.coerce.number().positive(),
   CLIENT_ID: z.coerce.number().positive(),
+  EXTERNAL_API_ASSETS_URL: z.string().url(),
   DATABASE_HOST: z.string().min(1),
   DATABASE_PORT: z.coerce.number().positive(),
   DATABASE_USER: z.string().min(1),
@@ -13,6 +14,7 @@ const serverEnvsSchema = z.object({
 const serverValidation = serverEnvsSchema.safeParse({
   PORT: process.env.PORT,
   CLIENT_ID: process.env.CLIENT_ID,
+  EXTERNAL_API_ASSETS_URL: process.env.EXTERNAL_API_ASSETS_URL,
   DATABASE_HOST: process.env.DATABASE_HOST,
   DATABASE_PORT: process.env.DATABASE_PORT,
   DATABASE_USER: process.env.DATABASE_USER,

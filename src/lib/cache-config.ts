@@ -8,6 +8,7 @@
  */
 
 export const CACHE_TAGS = {
+   productGallery: (id: string) => `product-gallery-${id}`,
   promoLink: (id: string) => `promo-link-${id}`,
   promoLinksByClient: (clientId: string) => `promo-links-client-${clientId}`,
   promoLinksByApp: (clientId: string, appId: string) =>
