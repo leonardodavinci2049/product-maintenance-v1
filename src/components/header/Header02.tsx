@@ -20,7 +20,11 @@ const TopMenu = [
     name: "Lista de produtos",
     href: "/product/product-list",
   },
-  { id: "pricing", name: "Pricing", href: "#pricing" },
+  {
+    id: "product-list-meta",
+    name: "Lista de produtos (Meta)",
+    href: "/product/product-list-meta",
+  },
   { id: "faq", name: "FAQ", href: "#faq" },
 ];
 
