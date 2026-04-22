@@ -1,7 +1,9 @@
 import type { RowDataPacket } from "mysql2/promise";
 
+import type { ProductStatusFilter } from "@/services/db/product/types/product-filter.types";
+
 export type ProductListParams = {
-  inativo: number;
+  inativo: ProductStatusFilter;
   search?: string | null;
 };
 

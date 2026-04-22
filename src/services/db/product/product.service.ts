@@ -14,11 +14,13 @@ export async function getProductList(
   params: ProductListParams,
 ): Promise<ProductListItem[]> {
   const clientId = envs.CLIENT_ID;
+  const inativo = params.inativo === "all" ? null : Number(params.inativo);
   const search = params.search ?? null;
 
   const queryParams = [
     clientId, // PE_SYSTEM_CLIENT_ID
-    params.inativo, // PE_INATIVO
+    inativo, // PE_INATIVO_NULL_CHECK
+    inativo, // PE_INATIVO
     search, // PE_SEARCH (IS NULL check)
     search, // PE_SEARCH (TRIM check)
     search, // PE_SEARCH (REGEXP check)

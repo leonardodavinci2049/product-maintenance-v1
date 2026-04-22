@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { createLogger } from "@/core/logger";
 import { getProductList } from "@/services/db/product/product.service";
+import { parseProductStatusFilter } from "@/services/db/product/types/product-filter.types";
 import { ProductListContent } from "./_components";
 
 const logger = createLogger("ProductListPage");
@@ -19,7 +20,7 @@ async function ProductListLoader({
   searchParamsPromise: SearchParams;
 }) {
   const searchParams = await searchParamsPromise;
-  const inativo: 0 | 1 = searchParams.inativo === "1" ? 1 : 0;
+  const inativo = parseProductStatusFilter(searchParams.inativo);
 
   await connection();
 

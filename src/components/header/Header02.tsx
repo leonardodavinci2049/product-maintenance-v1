@@ -34,7 +34,7 @@ const Logo = () => {
           width={24}
           height={24}
         />
-        PROCEDURES
+        PRODUCT MAINTENANCE
       </h1>
     </Link>
   );

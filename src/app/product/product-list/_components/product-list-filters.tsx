@@ -4,11 +4,21 @@ import { Loader2, Search, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Switch } from "@/components/ui/switch";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
+  DEFAULT_PRODUCT_STATUS_FILTER,
+  type ProductStatusFilter,
+} from "@/services/db/product/types/product-filter.types";
 
 export type ProductFilters = {
   searchTerm: string;
-  inativo: 0 | 1;
+  inativo: ProductStatusFilter;
 };
 
 interface ProductListFiltersProps {
@@ -50,8 +60,12 @@ export function ProductListFilters({
     }
   };
 
-  const handleInativoChange = (checked: boolean) => {
-    onFiltersChange({ ...filters, inativo: checked ? 1 : 0 });
+  const handleInativoChange = (value: string) => {
+    if (value === filters.inativo) {
+      return;
+    }
+
+    onFiltersChange({ ...filters, inativo: value as ProductStatusFilter });
   };
 
   return (
@@ -99,23 +113,27 @@ export function ProductListFilters({
         </div>
       </div>
 
-      <div className="flex items-center justify-between gap-3 rounded-3xl border border-border/60 bg-card/60 px-4 py-3 shadow-sm backdrop-blur-sm">
+      <div className="flex flex-col gap-3 rounded-3xl border border-border/60 bg-card/60 px-4 py-3 shadow-sm backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <label
-            htmlFor="inativo-filter"
-            className="cursor-pointer text-sm font-medium"
-          >
-            Exibir inativos
-          </label>
-          <Switch
-            id="inativo-filter"
-            checked={filters.inativo === 1}
-            onCheckedChange={handleInativoChange}
+          <span className="text-sm font-medium">Status</span>
+          <Select
+            value={filters.inativo}
+            onValueChange={handleInativoChange}
             disabled={isLoading}
-          />
+          >
+            <SelectTrigger className="w-[180px] bg-background/80">
+              <SelectValue placeholder="Selecione o status" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="2">Ativos</SelectItem>
+              <SelectItem value="1">Inativos</SelectItem>
+              <SelectItem value="all">Todos</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        {(filters.searchTerm || filters.inativo === 1) && (
+        {(filters.searchTerm ||
+          filters.inativo !== DEFAULT_PRODUCT_STATUS_FILTER) && (
           <Button
             type="button"
             variant="ghost"

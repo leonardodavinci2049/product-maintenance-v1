@@ -1,6 +1,6 @@
 // PE_SYSTEM_CLIENT_ID → param[0]
-// PE_INATIVO          → param[1]
-// PE_SEARCH           → params[2..8] (7 ocorrências na cláusula WHERE)
+// PE_INATIVO          → params[1..2] > 2 = ativo, 1 = inativo, NULL = todos
+// PE_SEARCH           → params[3..9] (7 ocorrências na cláusula WHERE)
 export const PRODUCT_LIST_SQL = `
   SELECT
     tbl_produto.ID_TBL_PRODUTO AS ID_PRODUTO,
@@ -67,7 +67,7 @@ export const PRODUCT_LIST_SQL = `
 
   WHERE tbl_produto.ID_SYSTEM_CLIENTE = ?
     AND tbl_produto.FLAG_LOOP = 0
-    AND tbl_produto.INATIVO = ?
+    AND (? IS NULL OR tbl_produto.INATIVO = ?)
 
     AND (
       (? IS NULL OR TRIM(?) = '')

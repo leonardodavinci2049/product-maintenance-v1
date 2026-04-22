@@ -2,6 +2,7 @@
 
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useTransition } from "react";
+import { DEFAULT_PRODUCT_STATUS_FILTER } from "@/services/db/product/types/product-filter.types";
 import type { ProductListItem } from "@/services/db/product/types/product-list.types";
 import { ProductListEmptyState } from "./product-list-empty-state";
 import {
@@ -36,7 +37,9 @@ export function ProductListContent({
     (newFilters: ProductFilters) => {
       const params = new URLSearchParams();
       if (newFilters.searchTerm) params.set("search", newFilters.searchTerm);
-      if (newFilters.inativo === 1) params.set("inativo", "1");
+      if (newFilters.inativo !== DEFAULT_PRODUCT_STATUS_FILTER) {
+        params.set("inativo", newFilters.inativo);
+      }
       updateUrl(params);
     },
     [updateUrl],
@@ -49,7 +52,8 @@ export function ProductListContent({
   }, [pathname, router]);
 
   const hasActiveFilters =
-    initialFilters.searchTerm.length > 0 || initialFilters.inativo === 1;
+    initialFilters.searchTerm.length > 0 ||
+    initialFilters.inativo !== DEFAULT_PRODUCT_STATUS_FILTER;
 
   return (
     <>
