@@ -100,7 +100,9 @@ export function ProductListTable({ products }: ProductListTableProps) {
 
                 <div className="mt-2">
                   <Button asChild size="xs" variant="outline" className="h-6">
-                    <Link href={`/product/${product.ID_PRODUTO}`}>Ver detalhes</Link>
+                    <Link href={`/product/${product.ID_PRODUTO}`}>
+                      Ver detalhes
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -188,7 +190,9 @@ export function ProductListTable({ products }: ProductListTableProps) {
                 </TableCell>
                 <TableCell className="text-right">
                   <Button asChild size="xs" variant="outline">
-                    <Link href={`/product/${product.ID_PRODUTO}`}>Ver detalhes</Link>
+                    <Link href={`/product/${product.ID_PRODUTO}`}>
+                      Ver detalhes
+                    </Link>
                   </Button>
                 </TableCell>
               </TableRow>
