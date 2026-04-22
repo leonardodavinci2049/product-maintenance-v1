@@ -1,7 +1,7 @@
-import { createPool } from "mysql2/promise";
 import { readFileSync, writeFileSync } from "node:fs";
-import { resolve, dirname } from "node:path";
+import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { createPool } from "mysql2/promise";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const ROOT = resolve(__dirname, "..");
@@ -171,7 +171,9 @@ async function main() {
   });
 
   try {
-    console.log(`Connecting to ${env.DATABASE_HOST}:${env.DATABASE_PORT}/${env.DATABASE_NAME}...`);
+    console.log(
+      `Connecting to ${env.DATABASE_HOST}:${env.DATABASE_PORT}/${env.DATABASE_NAME}...`,
+    );
 
     const [tables] = await pool.query(
       `SELECT TABLE_NAME FROM INFORMATION_SCHEMA.TABLES
@@ -201,7 +203,8 @@ async function main() {
         [env.DATABASE_NAME, tableName],
       );
 
-      const typeName = TABLE_NAME_OVERRIDES[tableName] || toPascalCase(tableName);
+      const typeName =
+        TABLE_NAME_OVERRIDES[tableName] || toPascalCase(tableName);
       const fields = [];
 
       for (const col of columns) {

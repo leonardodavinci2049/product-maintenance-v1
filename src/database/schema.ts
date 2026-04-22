@@ -2081,5 +2081,4 @@ export type TblTransportadora = {
   UPDATEDAT?: Date | null;
 };
 
-export type LogLogin = TblLogLogin;
 export type LogOperation = TblLogOperation;

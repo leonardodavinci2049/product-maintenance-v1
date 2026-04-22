@@ -1,12 +1,12 @@
 import "server-only";
 
-import dbService from "@/database/dbConnection";
 import { envs } from "@/core/config/envs";
+import dbService from "@/database/dbConnection";
+import { PRODUCT_LIST_SQL } from "./query/product-list";
 import type {
   ProductListItem,
   ProductListParams,
 } from "./types/product-list.types";
-import { PRODUCT_LIST_SQL } from "./query/product-list";
 
 export async function getProductList(
   params: ProductListParams,
