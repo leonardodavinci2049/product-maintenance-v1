@@ -53,7 +53,21 @@ export const PRODUCT_LIST_DESCRIPTION_SQL = `
     tbl_produto.TEMPODEGARANTIA_MES,
     tbl_produto.TEMPODEGARANTIA_DIA,
     tbl_produto.DESCRICAO_VENDA,
-
+    (SELECT CONCAT('[', 
+            GROUP_CONCAT(                   
+                  JSON_OBJECT(
+                  'ID_TAXONOMY', rel.ID_TAXONOMY,
+                  'TAXONOMIA', tax.TAXONOMIA
+                    )
+                    ORDER BY rel.ID_TAXONOMY ASC
+                  SEPARATOR ','
+                  ), 
+          ']')
+      FROM tbl_taxonomy_rel rel
+      INNER JOIN tbl_taxonomy tax ON tax.ID_TAXONOMY = rel.ID_TAXONOMY
+      AND rel.ID_SYSTEM_CLIENTE = tbl_produto.ID_SYSTEM_CLIENTE
+        WHERE rel.ID_RECORD = tbl_produto.ID_TBL_PRODUTO
+  ) AS CATEGORIAS ,           
     tbl_produto.IMPORTADO,
     tbl_produto.PROMOCAO,
     tbl_produto.LANCAMENTO,

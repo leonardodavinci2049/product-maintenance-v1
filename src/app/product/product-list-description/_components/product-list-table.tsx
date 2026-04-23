@@ -18,6 +18,33 @@ interface ProductListTableProps {
   products: ProductListDescriptionItem[];
 }
 
+type ProductCategory = {
+  ID_TAXONOMY?: number;
+  TAXONOMIA?: string;
+};
+
+function extractCategoryNames(categories: string | null): string {
+  if (!categories?.trim()) return "-";
+
+  try {
+    const parsed = JSON.parse(categories) as ProductCategory[];
+    if (!Array.isArray(parsed)) return "-";
+
+    const names = parsed
+      .sort(
+        (a, b) =>
+          (a.ID_TAXONOMY ?? Number.MAX_SAFE_INTEGER) -
+          (b.ID_TAXONOMY ?? Number.MAX_SAFE_INTEGER),
+      )
+      .map((category) => category.TAXONOMIA?.trim())
+      .filter((name): name is string => Boolean(name));
+
+    return names.length > 0 ? names.join(", ") : "-";
+  } catch {
+    return "-";
+  }
+}
+
 function truncateDescription(
   description: string | null,
   maxLength = 400,
@@ -53,6 +80,10 @@ export function ProductListTable({ products }: ProductListTableProps) {
                   {product.PRODUTO ?? "-"}
                 </p>
 
+                <p className="mt-1 text-[10px] leading-4 text-muted-foreground whitespace-normal wrap-break-word">
+                  {extractCategoryNames(product.CATEGORIAS)}
+                </p>
+
                 <div className="mt-2 text-[10px] leading-4 text-muted-foreground whitespace-normal wrap-break-word">
                   {truncateDescription(product.ANOTACOES)}
                 </div>
@@ -76,8 +107,13 @@ export function ProductListTable({ products }: ProductListTableProps) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-20">ID</TableHead>
-              <TableHead>Produto</TableHead>
-              <TableHead>Description</TableHead>
+              <TableHead className="w-[400px] min-w-[400px] max-w-[400px]">
+                Produto
+              </TableHead>
+              <TableHead className="w-[250px] min-w-[250px] max-w-[250px]">
+                Categorias
+              </TableHead>
+              <TableHead className="w-full">Description</TableHead>
               <TableHead className="w-28 text-right">Ação</TableHead>
             </TableRow>
           </TableHeader>
@@ -89,19 +125,22 @@ export function ProductListTable({ products }: ProductListTableProps) {
                     #{product.ID_PRODUTO}
                   </span>
                 </TableCell>
-                <TableCell className="align-top">
+                <TableCell className="align-top w-[400px] min-w-[400px] max-w-[400px] whitespace-normal break-words">
                   <div className="space-y-0.5">
-                    <p className="font-medium leading-5 text-foreground wrap-break-word">
+                    <p className="font-medium leading-5 text-foreground wrap-break-word whitespace-normal break-words">
                       {product.PRODUTO ?? "-"}
                     </p>
                     {(product.REF || product.MODELO) && (
-                      <p className="text-xs text-muted-foreground">
+                      <p className="text-xs text-muted-foreground whitespace-normal break-words">
                         {product.REF && `Ref: ${product.REF}`}
                         {product.REF && product.MODELO && " • "}
                         {product.MODELO}
                       </p>
                     )}
                   </div>
+                </TableCell>
+                <TableCell className="align-top w-[250px] min-w-[250px] max-w-[250px] text-sm text-muted-foreground whitespace-normal break-words">
+                  {extractCategoryNames(product.CATEGORIAS)}
                 </TableCell>
                 <TableCell className="align-top text-sm text-muted-foreground whitespace-normal wrap-break-word">
                   {truncateDescription(product.ANOTACOES)}

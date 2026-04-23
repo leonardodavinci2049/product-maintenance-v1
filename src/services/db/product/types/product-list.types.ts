@@ -45,11 +45,13 @@ export type ProductListItem = RowDataPacket & {
 };
 
 export type ProductListMetaItem = ProductListItem & {
+  CATEGORIAS: string | null;
   META_TITLE: string | null;
   META_DESCRIPTION: string | null;
 };
 
 export type ProductListDescriptionItem = ProductListItem & {
+  CATEGORIAS: string | null;
   ANOTACOES: string | null;
 };
 
