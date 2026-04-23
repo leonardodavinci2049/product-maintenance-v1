@@ -142,7 +142,9 @@ export function ProductListTable({ products }: ProductListTableProps) {
                 <div className="mt-2 space-y-1.5 text-[10px] leading-4 text-muted-foreground">
                   <div className="flex items-start gap-1">
                     <div className="flex-1">
-                      <span className="font-medium text-foreground/80">Title: </span>
+                      <span className="font-medium text-foreground/80">
+                        Title:{" "}
+                      </span>
                       {product.META_TITLE?.trim() || "-"}
                     </div>
                     <button
@@ -160,7 +162,9 @@ export function ProductListTable({ products }: ProductListTableProps) {
                   </div>
                   <div className="flex items-start gap-1">
                     <div className="flex-1">
-                      <span className="font-medium text-foreground/80">Description: </span>
+                      <span className="font-medium text-foreground/80">
+                        Description:{" "}
+                      </span>
                       {product.META_DESCRIPTION?.trim() || "-"}
                     </div>
                     <button
@@ -197,15 +201,11 @@ export function ProductListTable({ products }: ProductListTableProps) {
           <TableHeader>
             <TableRow>
               <TableHead className="w-20">ID</TableHead>
-              <TableHead className="w-75 min-w-75 max-w-75">
-                Produto
-              </TableHead>
+              <TableHead className="w-75 min-w-75 max-w-75">Produto</TableHead>
               <TableHead className="w-50 min-w-50 max-w-50">
                 Categorias
               </TableHead>
-              <TableHead className="w-100 min-w-100 max-w-100">
-                Title
-              </TableHead>
+              <TableHead className="w-100 min-w-100 max-w-100">Title</TableHead>
               <TableHead className="w-full">Description</TableHead>
               <TableHead className="w-28 text-right">Ação</TableHead>
             </TableRow>
