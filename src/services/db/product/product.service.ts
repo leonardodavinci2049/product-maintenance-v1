@@ -2,22 +2,24 @@ import "server-only";
 
 import { envs } from "@/core/config/envs";
 import dbService from "@/database/dbConnection";
+import { PRODUCT_LIST_DESCRIPTION_SQL } from "./query/product-find_list-description";
 import { PRODUCT_FIND_ID_SQL } from "./query/product_find_id";
 import { PRODUCT_LIST_SQL } from "./query/product-find_list";
+import { PRODUCT_LIST_META_SQL } from "./query/product-find_list-meta";
 import type {
   ProductDetail,
+  ProductListDescriptionItem,
   ProductListItem,
+  ProductListMetaItem,
   ProductListParams,
 } from "./types/product-list.types";
 
-export async function getProductList(
-  params: ProductListParams,
-): Promise<ProductListItem[]> {
+function buildProductListQueryParams(params: ProductListParams) {
   const clientId = envs.CLIENT_ID;
   const inativo = params.inativo === "all" ? null : Number(params.inativo);
   const search = params.search ?? null;
 
-  const queryParams = [
+  return [
     clientId, // PE_SYSTEM_CLIENT_ID
     inativo, // PE_INATIVO_NULL_CHECK
     inativo, // PE_INATIVO
@@ -29,8 +31,36 @@ export async function getProductList(
     search, // PE_SEARCH (NOT REGEXP check)
     search, // PE_SEARCH (LIKE inside NOT REGEXP block)
   ];
+}
+
+export async function getProductList(
+  params: ProductListParams,
+): Promise<ProductListItem[]> {
+  const queryParams = buildProductListQueryParams(params);
 
   return dbService.selectQuery<ProductListItem>(PRODUCT_LIST_SQL, queryParams);
+}
+
+export async function getProductListMeta(
+  params: ProductListParams,
+): Promise<ProductListMetaItem[]> {
+  const queryParams = buildProductListQueryParams(params);
+
+  return dbService.selectQuery<ProductListMetaItem>(
+    PRODUCT_LIST_META_SQL,
+    queryParams,
+  );
+}
+
+export async function getProductListDescription(
+  params: ProductListParams,
+): Promise<ProductListDescriptionItem[]> {
+  const queryParams = buildProductListQueryParams(params);
+
+  return dbService.selectQuery<ProductListDescriptionItem>(
+    PRODUCT_LIST_DESCRIPTION_SQL,
+    queryParams,
+  );
 }
 
 export async function getProductById(

@@ -44,6 +44,15 @@ export type ProductListItem = RowDataPacket & {
   DATADOCADASTRO: Date | null;
 };
 
+export type ProductListMetaItem = ProductListItem & {
+  META_TITLE: string | null;
+  META_DESCRIPTION: string | null;
+};
+
+export type ProductListDescriptionItem = ProductListItem & {
+  ANOTACOES: string | null;
+};
+
 export type ProductDetail = RowDataPacket & {
   ID_PRODUTO: number;
   SKU: number;

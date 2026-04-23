@@ -3,7 +3,7 @@ import { Suspense } from "react";
 
 import { Spinner } from "@/components/ui/spinner";
 import { createLogger } from "@/core/logger";
-import { getProductListMeta } from "@/services/db/product/product.service";
+import { getProductListDescription } from "@/services/db/product/product.service";
 import { parseProductStatusFilter } from "@/services/db/product/types/product-filter.types";
 import { ProductListContent } from "./_components";
 
@@ -24,10 +24,10 @@ async function ProductListLoader({
 
   await connection();
 
-  let products: Awaited<ReturnType<typeof getProductListMeta>> = [];
+  let products: Awaited<ReturnType<typeof getProductListDescription>> = [];
 
   try {
-    products = await getProductListMeta({
+    products = await getProductListDescription({
       inativo,
       search: searchParams.search,
     });
@@ -50,7 +50,7 @@ async function ProductListLoader({
   );
 }
 
-export default function ProductListMetaPage({
+export default function ProductListDescriptionPage({
   searchParams,
 }: {
   searchParams: SearchParams;
