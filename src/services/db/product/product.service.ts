@@ -63,6 +63,50 @@ export async function getProductListDescription(
   );
 }
 
+export async function updateProductAnotacoes(
+  productId: number,
+  value: string | null,
+): Promise<void> {
+  const clientId = envs.CLIENT_ID;
+  await dbService.modifyExecute(
+    "UPDATE tbl_produto SET ANOTACOES = ? WHERE ID_TBL_PRODUTO = ? AND ID_SYSTEM_CLIENTE = ?",
+    [value, productId, clientId],
+  );
+}
+
+export async function updateProductDescricaoVenda(
+  productId: number,
+  value: string | null,
+): Promise<void> {
+  const clientId = envs.CLIENT_ID;
+  await dbService.modifyExecute(
+    "UPDATE tbl_produto SET DESCRICAO_VENDA = ? WHERE ID_TBL_PRODUTO = ? AND ID_SYSTEM_CLIENTE = ?",
+    [value, productId, clientId],
+  );
+}
+
+export async function updateProductMetaTitle(
+  productId: number,
+  value: string | null,
+): Promise<void> {
+  const clientId = envs.CLIENT_ID;
+  await dbService.modifyExecute(
+    "UPDATE tbl_produto SET META_TITLE = ? WHERE ID_TBL_PRODUTO = ? AND ID_SYSTEM_CLIENTE = ?",
+    [value, productId, clientId],
+  );
+}
+
+export async function updateProductMetaDescription(
+  productId: number,
+  value: string | null,
+): Promise<void> {
+  const clientId = envs.CLIENT_ID;
+  await dbService.modifyExecute(
+    "UPDATE tbl_produto SET META_DESCRIPTION = ? WHERE ID_TBL_PRODUTO = ? AND ID_SYSTEM_CLIENTE = ?",
+    [value, productId, clientId],
+  );
+}
+
 export async function getProductById(
   id: number,
 ): Promise<ProductDetail | null> {
