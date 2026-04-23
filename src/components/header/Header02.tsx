@@ -25,7 +25,11 @@ const TopMenu = [
     name: "Lista de produtos (Meta)",
     href: "/product/product-list-meta",
   },
-  { id: "faq", name: "FAQ", href: "#faq" },
+  {
+    id: "product-list-description",
+    name: "Lista de produtos (Descrição)",
+    href: "/product/product-list-description",
+  },
 ];
 
 const Logo = () => {
@@ -46,8 +50,8 @@ const Logo = () => {
 
 export default function Header02() {
   return (
-    <header className="sticky top-5 z-50 w-full">
-      <div className="container mx-auto px-4">
+    <header className="sticky top-5 z-50 w-full px-4">
+      <div className="w-full mx-auto">
         <div className="border rounded-md w-full bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-1 px-4">
           <nav className="hidden justify-between md:flex">
             <div className="flex items-center gap-6">

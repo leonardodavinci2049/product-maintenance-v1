@@ -47,7 +47,7 @@ async function ProductDetailsLoader({
   }
 
   return (
-    <div className="mx-auto flex flex-1 flex-col w-full max-w-350">
+    <div className="mx-auto flex flex-1 flex-col w-full">
       <div className="@container/main flex flex-1 flex-col gap-6">
         <div className="flex flex-col gap-6 py-6">
           <div className="px-4 lg:px-6">
@@ -64,7 +64,7 @@ export default function ProductDetailsPage({
 }: ProductDetailsPageProps) {
   return (
     <div className="flex flex-1 flex-col">
-      <div className="@container/main mx-auto flex w-full max-w-350 flex-1 flex-col gap-6 px-4 py-6 lg:px-6">
+      <div className="@container/main mx-auto flex w-full flex-1 flex-col gap-6 px-4 py-6 lg:px-6">
         <h1 className="text-2xl font-bold tracking-tight">
           Detalhes do Produto
         </h1>

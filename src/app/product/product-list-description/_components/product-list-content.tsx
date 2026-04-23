@@ -3,7 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useTransition } from "react";
 import { DEFAULT_PRODUCT_STATUS_FILTER } from "@/services/db/product/types/product-filter.types";
-import type { ProductListItem } from "@/services/db/product/types/product-list.types";
+import type { ProductListDescriptionItem } from "@/services/db/product/types/product-list.types";
 import { ProductListEmptyState } from "./product-list-empty-state";
 import {
   type ProductFilters,
@@ -12,7 +12,7 @@ import {
 import { ProductListTable } from "./product-list-table";
 
 interface ProductListContentProps {
-  products: ProductListItem[];
+  products: ProductListDescriptionItem[];
   initialFilters: ProductFilters;
 }
 

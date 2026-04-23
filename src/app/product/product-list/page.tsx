@@ -54,7 +54,7 @@ export default function ProductListPage({
 }) {
   return (
     <div className="flex flex-1 flex-col">
-      <div className="@container/main mx-auto flex w-full max-w-350 flex-1 flex-col gap-6 px-4 py-6 lg:px-6">
+      <div className="@container/main mx-auto flex w-full flex-1 flex-col gap-6 px-4 py-6 lg:px-6">
         <h1 className="text-2xl font-bold tracking-tight">Lista de Produtos</h1>
 
         <Suspense

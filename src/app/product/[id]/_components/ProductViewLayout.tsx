@@ -15,7 +15,7 @@ export function ProductViewLayout({
   productId,
 }: ProductViewLayoutProps) {
   return (
-    <div className="mx-auto flex w-full max-w-350 flex-col gap-8">
+    <div className="mx-auto flex w-full flex-col gap-8">
       <ProductViewHeader product={product} />
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div>
@@ -38,7 +38,7 @@ export function ProductViewLayout({
 
 export function ProductViewLayoutSkeleton() {
   return (
-    <div className="mx-auto flex w-full max-w-350 flex-col gap-8 animate-pulse">
+    <div className="mx-auto flex w-full flex-col gap-8 animate-pulse">
       <div className="h-12 bg-muted rounded w-1/3"></div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         <div className="aspect-square bg-muted rounded"></div>
