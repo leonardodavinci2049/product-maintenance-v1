@@ -26,6 +26,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { ProductListMetaItem } from "@/services/db/product/types/product-list.types";
+import { getDescriptionProduto, getTitleProduto } from "@/utils/seo-meta";
 import {
   updateMetaDescriptionAction,
   updateMetaTitleAction,
@@ -47,6 +48,7 @@ type EditState = {
   productName: string;
   field: EditField;
   value: string;
+  categoryLevels: [string, string, string];
 };
 
 const FIELD_LABELS: Record<EditField, string> = {
@@ -54,14 +56,14 @@ const FIELD_LABELS: Record<EditField, string> = {
   META_DESCRIPTION: "Meta Description",
 };
 
-function extractCategoryNames(categories: string | null): string {
-  if (!categories?.trim()) return "-";
+function parseCategoryNames(categories: string | null): string[] {
+  if (!categories?.trim()) return [];
 
   try {
     const parsed = JSON.parse(categories) as ProductCategory[];
-    if (!Array.isArray(parsed)) return "-";
+    if (!Array.isArray(parsed)) return [];
 
-    const names = parsed
+    return parsed
       .sort(
         (a, b) =>
           (a.ID_TAXONOMY ?? Number.MAX_SAFE_INTEGER) -
@@ -69,11 +71,22 @@ function extractCategoryNames(categories: string | null): string {
       )
       .map((category) => category.TAXONOMIA?.trim())
       .filter((name): name is string => Boolean(name));
-
-    return names.length > 0 ? names.join(", ") : "-";
   } catch {
-    return "-";
+    return [];
   }
+}
+
+function extractCategoryNames(categories: string | null): string {
+  const names = parseCategoryNames(categories);
+  return names.length > 0 ? names.join(", ") : "-";
+}
+
+function extractCategoryLevels(
+  categories: string | null,
+): [string, string, string] {
+  const names = parseCategoryNames(categories);
+
+  return [names[0] ?? "", names[1] ?? "", names[2] ?? ""];
 }
 
 export function ProductListTable({ products }: ProductListTableProps) {
@@ -91,6 +104,7 @@ export function ProductListTable({ products }: ProductListTableProps) {
         (field === "META_TITLE"
           ? product.META_TITLE
           : product.META_DESCRIPTION) ?? "",
+      categoryLevels: extractCategoryLevels(product.CATEGORIAS),
     });
   }
 
@@ -112,6 +126,35 @@ export function ProductListTable({ products }: ProductListTableProps) {
         toast.error(result.error ?? "Falha ao salvar");
       }
     });
+  }
+
+  function normalizeWhitespace(value: string): string {
+    return value.replace(/\s+/g, " ").trim();
+  }
+
+  function handleGenerateMeta() {
+    if (!editState) return;
+
+    const productName = editState.productName.trim();
+    if (!productName || productName.startsWith("#")) {
+      toast.error("Produto sem nome para gerar conteúdo");
+      return;
+    }
+
+    const generatedValue =
+      editState.field === "META_TITLE"
+        ? getTitleProduto(productName)
+        : getDescriptionProduto(
+            productName,
+            editState.categoryLevels[0],
+            editState.categoryLevels[1],
+            editState.categoryLevels[2],
+          );
+
+    setEditState((prev) =>
+      prev ? { ...prev, value: normalizeWhitespace(generatedValue) } : prev,
+    );
+    toast.success("Conteúdo gerado automaticamente");
   }
 
   return (
@@ -319,6 +362,16 @@ export function ProductListTable({ products }: ProductListTableProps) {
             />
           </div>
           <DialogFooter showCloseButton>
+            <Button
+              type="button"
+              variant="secondary"
+              onClick={handleGenerateMeta}
+              disabled={isPending}
+            >
+              {editState?.field === "META_TITLE"
+                ? "Gerar meta title"
+                : "Gerar meta description"}
+            </Button>
             <Button onClick={handleSave} disabled={isPending}>
               {isPending ? "Salvando..." : "Salvar"}
             </Button>
