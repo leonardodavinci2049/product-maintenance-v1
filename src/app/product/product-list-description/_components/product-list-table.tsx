@@ -18,7 +18,10 @@ interface ProductListTableProps {
   products: ProductListDescriptionItem[];
 }
 
-function truncateDescription(description: string | null, maxLength = 400): string {
+function truncateDescription(
+  description: string | null,
+  maxLength = 400,
+): string {
   if (!description?.trim()) return "-";
 
   return description.length > maxLength
