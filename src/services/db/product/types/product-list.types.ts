@@ -7,7 +7,7 @@ export type ProductListParams = {
   search?: string | null;
 };
 
-export type ProductListItem = RowDataPacket & {
+type ProductListBaseColumns = {
   ID_PRODUTO: number;
   SKU: number;
   PRODUTO: string | null;
@@ -44,13 +44,24 @@ export type ProductListItem = RowDataPacket & {
   DATADOCADASTRO: Date | null;
 };
 
-export type ProductListMetaItem = ProductListItem & {
-  CATEGORIAS: string | null;
-  META_TITLE: string | null;
-  META_DESCRIPTION: string | null;
-};
+export type ProductListItem = RowDataPacket & ProductListBaseColumns;
 
-export type ProductListDescriptionItem = ProductListItem & {
+export type ProductListMetaItem = RowDataPacket &
+  ProductListBaseColumns & {
+    CATEGORIAS: string | null;
+    META_TITLE: string | null;
+    META_DESCRIPTION: string | null;
+  };
+
+export type ProductListDescriptionItem = RowDataPacket & {
+  ID_PRODUTO: number;
+  SKU: number;
+  PRODUTO: string | null;
+  REF: string | null;
+  MODELO: string | null;
+  PATH_PAGE: string | null;
+  DESCRICAO_VENDA: string | null;
+  DATADOCADASTRO: Date | null;
   CATEGORIAS: string | null;
   ANOTACOES: string | null;
 };
