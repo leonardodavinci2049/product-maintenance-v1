@@ -30,6 +30,11 @@ const TopMenu = [
     name: "Lista de produtos (Descrição)",
     href: "/product/product-list-description",
   },
+  {
+    id: "category-list",
+    name: "Lista de categorias",
+    href: "/category/category-list",
+  },
 ];
 
 const Logo = () => {
