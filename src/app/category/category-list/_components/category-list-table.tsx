@@ -33,7 +33,7 @@ import type { CategoryListItem } from "@/services/db/category/types/category-lis
 import {
   getDescriptionCategoria,
   getTitleCategoria,
-} from "@/utils/seo-meta/seo-meta-category";
+} from "@/utils/meta-tag-generation-algorithm/seo-meta-category";
 
 interface CategoryListTableProps {
   categories: CategoryListItem[];

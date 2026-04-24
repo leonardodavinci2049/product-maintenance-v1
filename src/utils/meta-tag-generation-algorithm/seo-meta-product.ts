@@ -2,13 +2,13 @@ import {
   getKeywordBase,
   sortearTermosMeta,
   toNaturalPtBrText,
-} from "../seo-meta-shared";
+} from "./seo-meta-shared";
 
 export function getTitleProduto(opNome: string): string {
   let metaTitle = "";
 
   metaTitle = opNome.replace("/", " e ");
-  metaTitle = opNome.replace("\\", " e ");
+  metaTitle = metaTitle.replace("\\", " e ");
   metaTitle = toNaturalPtBrText(metaTitle);
 
   return `${metaTitle} em Ribeirão Preto`;

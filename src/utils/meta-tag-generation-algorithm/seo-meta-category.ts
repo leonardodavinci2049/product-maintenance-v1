@@ -2,7 +2,7 @@ import {
   getKeywordBase,
   sortearTermosMeta,
   toNaturalPtBrText,
-} from "../seo-meta-shared";
+} from "./seo-meta-shared";
 
 export function getKeywordCategoria(
   opNomeFamilia: string,
@@ -30,7 +30,7 @@ export function getTitleCategoria(
   }
 
   if (grupoNormalizado !== "") {
-    metaTitle = `${grupoNormalizado} departamento de  ${familiaNormalizada}`;
+    metaTitle = `${grupoNormalizado} departamento de ${familiaNormalizada}`;
   }
 
   if (subgrupoNormalizado !== "") {
@@ -45,7 +45,7 @@ export function getTitleCategoria(
 }
 
 export function getDescriptionCategoria(
-  _opNomeProduto: string,
+  _opNomeTaxonomia: string,
   opNomeFamilia: string,
   opNomeGrupo: string,
   opNomeSubgrupo: string,
@@ -56,23 +56,23 @@ export function getDescriptionCategoria(
   const grupoNormalizado = toNaturalPtBrText(opNomeGrupo);
   const subgrupoNormalizado = toNaturalPtBrText(opNomeSubgrupo);
 
-  let metaTitle = "";
+  let metaDescription = "";
 
   if (familiaNormalizada !== "") {
-    metaTitle = `${familiaNormalizada} em Ribeirão Preto SP`;
+    metaDescription = `${familiaNormalizada} em Ribeirão Preto SP`;
   }
 
   if (grupoNormalizado !== "") {
-    metaTitle = `${grupoNormalizado} em ${familiaNormalizada}`;
+    metaDescription = `${grupoNormalizado} em ${familiaNormalizada}`;
   }
 
   if (subgrupoNormalizado !== "") {
-    metaTitle = `${subgrupoNormalizado} em ${grupoNormalizado}`;
+    metaDescription = `${subgrupoNormalizado} em ${grupoNormalizado}`;
   }
 
-  metaTitle = metaTitle.replace("/", " e ");
-  metaTitle = metaTitle.replace("\\", " e ");
-  metaTitle = toNaturalPtBrText(metaTitle);
+  metaDescription = metaDescription.replace("/", " e ");
+  metaDescription = metaDescription.replace("\\", " e ");
+  metaDescription = toNaturalPtBrText(metaDescription);
 
-  return `${termoInicialEscolhido} ${metaTitle} ${termoFinalEscolhido} Somos a maior loja de Ribeirão Preto São Paulo`;
+  return `${termoInicialEscolhido} ${metaDescription} ${termoFinalEscolhido} Somos a maior loja de Ribeirão Preto São Paulo`;
 }

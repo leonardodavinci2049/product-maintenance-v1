@@ -26,7 +26,10 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import type { ProductListMetaItem } from "@/services/db/product/types/product-list.types";
-import { getDescriptionProduto, getTitleProduto } from "@/utils/seo-meta";
+import {
+  getDescriptionProduto,
+  getTitleProduto,
+} from "@/utils/meta-tag-generation-algorithm/seo-meta-product";
 import {
   updateMetaDescriptionAction,
   updateMetaTitleAction,

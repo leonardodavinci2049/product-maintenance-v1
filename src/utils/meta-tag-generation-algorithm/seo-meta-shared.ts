@@ -24,7 +24,7 @@ const TERMOS_FINAIS = [
   "venha fazer ótimos negócios. Aproveite!",
 ];
 
-const PT_BR_LOWER_CONNECTORS = new Set([
+export const PT_BR_LOWER_CONNECTORS = new Set([
   "a",
   "as",
   "da",

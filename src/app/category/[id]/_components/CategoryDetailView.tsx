@@ -25,7 +25,7 @@ import type { CategoryDetail } from "@/services/db/category/types/category-list.
 import {
   getDescriptionCategoria,
   getTitleCategoria,
-} from "@/utils/seo-meta/seo-meta-category";
+} from "@/utils/meta-tag-generation-algorithm/seo-meta-category";
 
 interface CategoryDetailViewProps {
   category: CategoryDetail;
