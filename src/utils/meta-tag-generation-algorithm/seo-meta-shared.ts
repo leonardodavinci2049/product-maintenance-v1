@@ -1,31 +1,43 @@
-import { BUSINESS_LOCATION } from "./seo-meta-business-location";
+import { BUSINESS_LOCATION } from "./constants-terms/seo-meta-business-location";
 import {
   CATEGORY_CALL_TO_ACTION,
   PRODUCT_CALL_TO_ACTION,
-} from "./seo-meta-call-to-action";
+} from "./constants-terms/seo-meta-call-to-action";
 import {
-  CATEGORY_CLOSING_KEYWORDS,
-  PRODUCT_CLOSING_KEYWORDS,
-} from "./seo-meta-closing-keywords";
+  CATEGORY_BENEFIT_TERMS,
+  CATEGORY_PROOF_TERMS,
+  CATEGORY_URGENCY_TERMS,
+  PRODUCT_BENEFIT_TERMS,
+  PRODUCT_PROOF_TERMS,
+  PRODUCT_URGENCY_TERMS,
+} from "./constants-terms/seo-meta-closing-keywords";
 
 export type MetaPageContext = "product" | "category";
 
 export {
   BUSINESS_LOCATION,
+  CATEGORY_BENEFIT_TERMS,
   CATEGORY_CALL_TO_ACTION,
-  CATEGORY_CLOSING_KEYWORDS,
+  CATEGORY_PROOF_TERMS,
+  CATEGORY_URGENCY_TERMS,
+  PRODUCT_BENEFIT_TERMS,
   PRODUCT_CALL_TO_ACTION,
-  PRODUCT_CLOSING_KEYWORDS,
+  PRODUCT_PROOF_TERMS,
+  PRODUCT_URGENCY_TERMS,
 };
 
 const META_TERM_POOLS = {
   category: {
-    closingTerms: CATEGORY_CLOSING_KEYWORDS,
+    benefitTerms: CATEGORY_BENEFIT_TERMS,
     openingTerms: CATEGORY_CALL_TO_ACTION,
+    proofTerms: CATEGORY_PROOF_TERMS,
+    urgencyTerms: CATEGORY_URGENCY_TERMS,
   },
   product: {
-    closingTerms: PRODUCT_CLOSING_KEYWORDS,
+    benefitTerms: PRODUCT_BENEFIT_TERMS,
     openingTerms: PRODUCT_CALL_TO_ACTION,
+    proofTerms: PRODUCT_PROOF_TERMS,
+    urgencyTerms: PRODUCT_URGENCY_TERMS,
   },
 } as const;
 
@@ -164,20 +176,52 @@ export function getKeywordBase(productName: string): string {
   return keyword;
 }
 
-export function drawMetaTerms(context: MetaPageContext = "product"): {
-  chosenOpeningTerm: string;
-  chosenClosingTerm: string;
-  chosenLocation: string;
-} {
-  const { closingTerms, openingTerms } = META_TERM_POOLS[context];
+export function buildMetaSemanticTail(
+  benefitTerm: string,
+  proofTerm: string,
+  urgencyTerm: string,
+  locationTerm: string,
+): string {
+  const semanticTerms = [benefitTerm, proofTerm, urgencyTerm]
+    .map((term) => normalizeMetaText(term))
+    .filter(Boolean);
+  const normalizedLocation = normalizeMetaText(locationTerm);
 
+  if (semanticTerms.length === 0) {
+    return normalizedLocation;
+  }
+
+  const semanticTail =
+    semanticTerms.length === 1
+      ? semanticTerms[0]
+      : `${semanticTerms.slice(0, -1).join(", ")} e ${semanticTerms.at(-1)}`;
+
+  return normalizedLocation
+    ? `${semanticTail}, ${normalizedLocation}`
+    : semanticTail;
+}
+
+export function drawMetaTerms(context: MetaPageContext = "product"): {
+  chosenBenefitTerm: string;
+  chosenOpeningTerm: string;
+  chosenLocation: string;
+  chosenProofTerm: string;
+  chosenUrgencyTerm: string;
+} {
+  const { benefitTerms, openingTerms, proofTerms, urgencyTerms } =
+    META_TERM_POOLS[context];
+
+  const benefitIndex = Math.floor(Math.random() * benefitTerms.length);
   const openingIndex = Math.floor(Math.random() * openingTerms.length);
-  const closingIndex = Math.floor(Math.random() * closingTerms.length);
   const locationIndex = Math.floor(Math.random() * BUSINESS_LOCATION.length);
+  const proofIndex = Math.floor(Math.random() * proofTerms.length);
+  const urgencyIndex = Math.floor(Math.random() * urgencyTerms.length);
 
   return {
+    chosenBenefitTerm: benefitTerms[benefitIndex],
     chosenOpeningTerm: openingTerms[openingIndex],
-    chosenClosingTerm: closingTerms[closingIndex],
     chosenLocation: BUSINESS_LOCATION[locationIndex],
+    chosenProofTerm: proofTerms[proofIndex],
+    chosenUrgencyTerm: urgencyTerms[urgencyIndex],
   };
 }

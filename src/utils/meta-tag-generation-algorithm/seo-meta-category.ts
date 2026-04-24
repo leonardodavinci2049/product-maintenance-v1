@@ -1,4 +1,5 @@
 import {
+  buildMetaSemanticTail,
   drawMetaTerms,
   getKeywordBase,
   replacePathSeparators,
@@ -29,8 +30,13 @@ export function getCategoryDescription(
   categoryName: string,
   parentName: string,
 ): string {
-  const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
-    drawMetaTerms("category");
+  const {
+    chosenBenefitTerm,
+    chosenOpeningTerm,
+    chosenLocation,
+    chosenProofTerm,
+    chosenUrgencyTerm,
+  } = drawMetaTerms("category");
 
   const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
   const normalizedParentName = toNaturalPtBrText(parentName).trim();
@@ -46,13 +52,14 @@ export function getCategoryDescription(
   partialMetaDescription = toNaturalPtBrText(
     replacePathSeparators(partialMetaDescription),
   );
-
-  return [
-    chosenOpeningTerm,
-    partialMetaDescription,
-    chosenClosingTerm,
+  const semanticTail = buildMetaSemanticTail(
+    chosenBenefitTerm,
+    chosenProofTerm,
+    chosenUrgencyTerm,
     chosenLocation,
-  ]
+  );
+
+  return [chosenOpeningTerm, partialMetaDescription, semanticTail]
     .filter(Boolean)
     .join(" ")
     .trim();

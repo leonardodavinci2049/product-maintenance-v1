@@ -1,4 +1,5 @@
 import {
+  buildMetaSemanticTail,
   drawMetaTerms,
   getKeywordBase,
   replacePathSeparators,
@@ -19,8 +20,13 @@ export function getProductDescription(
   groupName: string,
   subgroupName: string,
 ): string {
-  const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
-    drawMetaTerms("product");
+  const {
+    chosenBenefitTerm,
+    chosenOpeningTerm,
+    chosenLocation,
+    chosenProofTerm,
+    chosenUrgencyTerm,
+  } = drawMetaTerms("product");
 
   const normalizedProductName = toNaturalPtBrText(productName);
   const normalizedFamily = toNaturalPtBrText(familyName).trim();
@@ -29,14 +35,19 @@ export function getProductDescription(
   const normalizedHierarchy = [normalizedGroup, normalizedSubgroup]
     .filter(Boolean)
     .join(" ");
+  const semanticTail = buildMetaSemanticTail(
+    chosenBenefitTerm,
+    chosenProofTerm,
+    chosenUrgencyTerm,
+    chosenLocation,
+  );
 
   return [
     chosenOpeningTerm,
     normalizedFamily ? `${normalizedFamily} para` : "",
     normalizedProductName,
     normalizedHierarchy,
-    chosenClosingTerm,
-    chosenLocation,
+    semanticTail,
   ]
     .filter(Boolean)
     .join(" ")
