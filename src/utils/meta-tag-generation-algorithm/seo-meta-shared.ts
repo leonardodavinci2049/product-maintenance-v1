@@ -27,6 +27,7 @@ const CLOSING_KEYWORDS = [
 export const BUSINESS_LOCATION = [
   "Ribeirão Preto São Paulo",
   "em Ribeirão Preto SP",
+  "Somos a maior loja de Ribeirão Preto São Paulo",
 ];
 
 export const PT_BR_LOWER_CONNECTORS = new Set([
