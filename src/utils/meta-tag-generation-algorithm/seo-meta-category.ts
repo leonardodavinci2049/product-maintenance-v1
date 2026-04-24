@@ -1,78 +1,62 @@
 import {
+  drawMetaTerms,
   getKeywordBase,
-  sortearTermosMeta,
   toNaturalPtBrText,
 } from "./seo-meta-shared";
 
-export function getKeywordCategoria(
-  opNomeFamilia: string,
-  opNomeGrupo: string,
-  opNomeSubgrupo: string,
+export function getCategoryTitle(
+  categoryName: string,
+  parentName: string,
 ): string {
-  const keyword = `${opNomeFamilia} ${opNomeGrupo} ${opNomeSubgrupo}`;
+  const { chosenLocation } = drawMetaTerms();
+
+  const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
+  const normalizedParentName = toNaturalPtBrText(parentName).trim();
+
+  let partialMetaTitle = normalizedCategoryName;
+
+  if (normalizedCategoryName !== "" && normalizedParentName !== "") {
+    partialMetaTitle = `${normalizedCategoryName} departamento de ${normalizedParentName}`;
+  }
+
+  partialMetaTitle = partialMetaTitle.replace("/", " e ");
+  partialMetaTitle = partialMetaTitle.replace("\\", " e ");
+  partialMetaTitle = toNaturalPtBrText(partialMetaTitle);
+
+  return `${partialMetaTitle} ${chosenLocation}  `;
+}
+
+export function getCategoryDescription(
+  categoryName: string,
+  parentName: string,
+): string {
+  const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
+    drawMetaTerms();
+
+  const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
+  const normalizedParentName = toNaturalPtBrText(parentName).trim();
+
+  let partialMetaDescription = "";
+
+  if (normalizedCategoryName !== "") {
+    partialMetaDescription = normalizedParentName
+      ? `${normalizedCategoryName} em ${normalizedParentName}`
+      : `${normalizedCategoryName} em ${chosenLocation}`;
+  }
+
+  partialMetaDescription = partialMetaDescription.replace("/", " e ");
+  partialMetaDescription = partialMetaDescription.replace("\\", " e ");
+  partialMetaDescription = toNaturalPtBrText(partialMetaDescription);
+
+  return `${chosenOpeningTerm} ${partialMetaDescription} ${chosenClosingTerm} Somos a maior loja de Ribeirão Preto São Paulo`;
+}
+
+export function getCategoryKeyword(
+  familyName: string,
+  groupName: string,
+  subgroupName: string,
+): string {
+  const keyword = `${familyName} ${groupName} ${subgroupName}`;
 
   return getKeywordBase(keyword).trim();
-}
-
-export function getTitleCategoria(
-  opNomeFamilia: string,
-  opNomeGrupo: string,
-  opNomeSubgrupo: string,
-): string {
-  const familiaNormalizada = toNaturalPtBrText(opNomeFamilia);
-  const grupoNormalizado = toNaturalPtBrText(opNomeGrupo);
-  const subgrupoNormalizado = toNaturalPtBrText(opNomeSubgrupo);
-
-  let metaTitle = "";
-
-  if (familiaNormalizada !== "") {
-    metaTitle = familiaNormalizada;
-  }
-
-  if (grupoNormalizado !== "") {
-    metaTitle = `${grupoNormalizado} departamento de ${familiaNormalizada}`;
-  }
-
-  if (subgrupoNormalizado !== "") {
-    metaTitle = `${subgrupoNormalizado} departamento de ${subgrupoNormalizado}`;
-  }
-
-  metaTitle = metaTitle.replace("/", " e ");
-  metaTitle = metaTitle.replace("\\", " e ");
-  metaTitle = toNaturalPtBrText(metaTitle);
-
-  return `${metaTitle} em Ribeirão Preto`;
-}
-
-export function getDescriptionCategoria(
-  _opNomeTaxonomia: string,
-  opNomeFamilia: string,
-  opNomeGrupo: string,
-  opNomeSubgrupo: string,
-): string {
-  const { termoInicialEscolhido, termoFinalEscolhido } = sortearTermosMeta();
-
-  const familiaNormalizada = toNaturalPtBrText(opNomeFamilia);
-  const grupoNormalizado = toNaturalPtBrText(opNomeGrupo);
-  const subgrupoNormalizado = toNaturalPtBrText(opNomeSubgrupo);
-
-  let metaDescription = "";
-
-  if (familiaNormalizada !== "") {
-    metaDescription = `${familiaNormalizada} em Ribeirão Preto SP`;
-  }
-
-  if (grupoNormalizado !== "") {
-    metaDescription = `${grupoNormalizado} em ${familiaNormalizada}`;
-  }
-
-  if (subgrupoNormalizado !== "") {
-    metaDescription = `${subgrupoNormalizado} em ${grupoNormalizado}`;
-  }
-
-  metaDescription = metaDescription.replace("/", " e ");
-  metaDescription = metaDescription.replace("\\", " e ");
-  metaDescription = toNaturalPtBrText(metaDescription);
-
-  return `${termoInicialEscolhido} ${metaDescription} ${termoFinalEscolhido} Somos a maior loja de Ribeirão Preto São Paulo`;
 }

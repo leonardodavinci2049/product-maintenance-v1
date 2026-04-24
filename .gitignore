@@ -46,4 +46,5 @@ next-env.d.ts
 tasks-project-next.md
 ecosystem.config.js
 AGENTS.md
+/scripts
 

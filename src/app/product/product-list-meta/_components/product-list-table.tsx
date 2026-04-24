@@ -27,8 +27,8 @@ import {
 } from "@/components/ui/table";
 import type { ProductListMetaItem } from "@/services/db/product/types/product-list.types";
 import {
-  getDescriptionProduto,
-  getTitleProduto,
+  getProductDescription,
+  getProductTitle,
 } from "@/utils/meta-tag-generation-algorithm/seo-meta-product";
 import {
   updateMetaDescriptionAction,
@@ -146,8 +146,8 @@ export function ProductListTable({ products }: ProductListTableProps) {
 
     const generatedValue =
       editState.field === "META_TITLE"
-        ? getTitleProduto(productName)
-        : getDescriptionProduto(
+        ? getProductTitle(productName)
+        : getProductDescription(
             productName,
             editState.categoryLevels[0],
             editState.categoryLevels[1],
