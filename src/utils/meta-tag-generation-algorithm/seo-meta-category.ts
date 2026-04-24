@@ -1,6 +1,7 @@
 import {
   drawMetaTerms,
   getKeywordBase,
+  replacePathSeparators,
   toNaturalPtBrText,
 } from "./seo-meta-shared";
 
@@ -19,11 +20,9 @@ export function getCategoryTitle(
     partialMetaTitle = `${normalizedCategoryName} departamento de ${normalizedParentName}`;
   }
 
-  partialMetaTitle = partialMetaTitle.replace("/", " e ");
-  partialMetaTitle = partialMetaTitle.replace("\\", " e ");
-  partialMetaTitle = toNaturalPtBrText(partialMetaTitle);
+  partialMetaTitle = toNaturalPtBrText(replacePathSeparators(partialMetaTitle));
 
-  return `${partialMetaTitle} ${chosenLocation}  `;
+  return [partialMetaTitle, chosenLocation].filter(Boolean).join(" ").trim();
 }
 
 export function getCategoryDescription(
@@ -41,14 +40,22 @@ export function getCategoryDescription(
   if (normalizedCategoryName !== "") {
     partialMetaDescription = normalizedParentName
       ? `${normalizedCategoryName} em ${normalizedParentName}`
-      : `${normalizedCategoryName} em ${chosenLocation}`;
+      : normalizedCategoryName;
   }
 
-  partialMetaDescription = partialMetaDescription.replace("/", " e ");
-  partialMetaDescription = partialMetaDescription.replace("\\", " e ");
-  partialMetaDescription = toNaturalPtBrText(partialMetaDescription);
+  partialMetaDescription = toNaturalPtBrText(
+    replacePathSeparators(partialMetaDescription),
+  );
 
-  return `${chosenOpeningTerm} ${partialMetaDescription} ${chosenClosingTerm} ${chosenLocation}`;
+  return [
+    chosenOpeningTerm,
+    partialMetaDescription,
+    chosenClosingTerm,
+    chosenLocation,
+  ]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
 }
 
 export function getCategoryKeyword(

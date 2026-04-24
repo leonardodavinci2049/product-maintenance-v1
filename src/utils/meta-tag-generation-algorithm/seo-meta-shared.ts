@@ -47,8 +47,28 @@ export const PT_BR_LOWER_CONNECTORS = new Set([
   "para",
 ]);
 
+export const PT_BR_UPPERCASE_EXCEPTIONS = new Map([
+  ["abnt", "ABNT"],
+  ["led", "LED"],
+  ["nf-e", "NF-e"],
+  ["pvc", "PVC"],
+  ["usb", "USB"],
+]);
+
+export function normalizeMetaText(value: string): string {
+  return value
+    .normalize("NFC")
+    .replaceAll("\u00A0", " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
+export function replacePathSeparators(value: string): string {
+  return value.replaceAll("/", " e ").replaceAll("\\", " e ");
+}
+
 export function toNaturalPtBrText(value: string): string {
-  const normalized = value.replace(/\s+/g, " ").trim();
+  const normalized = normalizeMetaText(value);
   if (!normalized) return "";
 
   const allUpperCase =
@@ -60,17 +80,26 @@ export function toNaturalPtBrText(value: string): string {
   return baseText
     .split(" ")
     .map((word, index) => {
-      if (index > 0 && PT_BR_LOWER_CONNECTORS.has(word)) {
-        return word;
+      const lowerWord = word.toLowerCase();
+      const uppercaseException = PT_BR_UPPERCASE_EXCEPTIONS.get(lowerWord);
+
+      if (uppercaseException) {
+        return uppercaseException;
       }
 
-      return word.charAt(0).toUpperCase() + word.slice(1);
+      if (index > 0 && PT_BR_LOWER_CONNECTORS.has(lowerWord)) {
+        return lowerWord;
+      }
+
+      const baseWord = allUpperCase ? lowerWord : word;
+
+      return baseWord.charAt(0).toUpperCase() + baseWord.slice(1);
     })
     .join(" ");
 }
 
 function formatTitleCaseKeywords(name: string): string {
-  let remainingName = name.trim().toLowerCase();
+  let remainingName = normalizeMetaText(name).toLowerCase();
   let formattedName = "";
 
   while (remainingName.trim() !== "") {
@@ -108,15 +137,14 @@ function formatTitleCaseKeywords(name: string): string {
 }
 
 export function getKeywordBase(productName: string): string {
-  let keyword = productName;
+  let keyword = normalizeMetaText(productName);
 
   keyword = keyword.replaceAll("-", " ");
 
   keyword = keyword.replaceAll(" - ", "");
   keyword = keyword.replaceAll(" -", "");
   keyword = keyword.replaceAll("- ", "");
-  keyword = keyword.replaceAll("  ", " ");
-  keyword = keyword.replaceAll("  ", " ");
+  keyword = keyword.replace(/\s+/g, " ");
   keyword = keyword.replaceAll(" ", ", ");
 
   keyword = keyword.trim();
