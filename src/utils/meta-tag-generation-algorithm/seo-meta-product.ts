@@ -1,43 +1,43 @@
 import {
+  drawMetaTerms,
   getKeywordBase,
-  sortearTermosMeta,
   toNaturalPtBrText,
 } from "./seo-meta-shared";
 
-export function getTitleProduto(opNome: string): string {
+export function getProductTitle(productName: string): string {
   let metaTitle = "";
 
-  metaTitle = opNome.replace("/", " e ");
+  metaTitle = productName.replace("/", " e ");
   metaTitle = metaTitle.replace("\\", " e ");
   metaTitle = toNaturalPtBrText(metaTitle);
 
   return `${metaTitle} em Ribeirão Preto`;
 }
 
-export function getDescriptionProduto(
-  opNomeProduto: string,
-  opNomeFamilia: string,
-  opNomeGrupo: string,
-  _opNomeSubgrupo: string,
+export function getProductDescription(
+  productName: string,
+  familyName: string,
+  groupName: string,
+  _subgroupName: string,
 ): string {
-  const { termoInicialEscolhido, termoFinalEscolhido } = sortearTermosMeta();
+  const { chosenOpeningTerm, chosenClosingTerm } = drawMetaTerms();
 
-  const nomeProdutoNormalizado = toNaturalPtBrText(opNomeProduto);
-  const familiaNormalizada = toNaturalPtBrText(opNomeFamilia).trim();
-  const grupoNormalizado = toNaturalPtBrText(opNomeGrupo).trim();
+  const normalizedProductName = toNaturalPtBrText(productName);
+  const normalizedFamily = toNaturalPtBrText(familyName).trim();
+  const normalizedGroup = toNaturalPtBrText(groupName).trim();
 
   return [
-    termoInicialEscolhido,
-    familiaNormalizada ? `${familiaNormalizada} para` : "",
-    nomeProdutoNormalizado,
-    grupoNormalizado,
-    termoFinalEscolhido,
+    chosenOpeningTerm,
+    normalizedFamily ? `${normalizedFamily} para` : "",
+    normalizedProductName,
+    normalizedGroup,
+    chosenClosingTerm,
     "Somos a maior loja de Ribeirão Preto São Paulo",
   ]
     .filter(Boolean)
     .join(" ");
 }
 
-export function getKeywordProduto(opNome: string): string {
-  return getKeywordBase(opNome).trim();
+export function getProductKeyword(productName: string): string {
+  return getKeywordBase(productName).trim();
 }

@@ -1,59 +1,62 @@
 import {
+  drawMetaTerms,
   getKeywordBase,
-  sortearTermosMeta,
   toNaturalPtBrText,
 } from "./seo-meta-shared";
 
-export function getTitleCategoria(
+export function getCategoryTitle(
   categoryName: string,
   parentName: string,
 ): string {
-  const nomeCategoriaNormalizado = toNaturalPtBrText(categoryName).trim();
-  const nomePaiNormalizado = toNaturalPtBrText(parentName).trim();
+  const { chosenLocation } = drawMetaTerms();
 
-  let partialMetaTitle = nomeCategoriaNormalizado;
+  const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
+  const normalizedParentName = toNaturalPtBrText(parentName).trim();
 
-  if (nomeCategoriaNormalizado !== "" && nomePaiNormalizado !== "") {
-    partialMetaTitle = `${nomeCategoriaNormalizado} departamento de ${nomePaiNormalizado}`;
+  let partialMetaTitle = normalizedCategoryName;
+
+  if (normalizedCategoryName !== "" && normalizedParentName !== "") {
+    partialMetaTitle = `${normalizedCategoryName} departamento de ${normalizedParentName}`;
   }
 
   partialMetaTitle = partialMetaTitle.replace("/", " e ");
   partialMetaTitle = partialMetaTitle.replace("\\", " e ");
   partialMetaTitle = toNaturalPtBrText(partialMetaTitle);
 
-  return `${partialMetaTitle} em Ribeirão Preto`;
+  return `${partialMetaTitle} ${chosenLocation}  `;
 }
 
-export function getDescriptionCategoria(
+export function getCategoryDescription(
   categoryName: string,
   parentName: string,
 ): string {
-  const { termoInicialEscolhido, termoFinalEscolhido } = sortearTermosMeta();
+  const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
+    drawMetaTerms();
 
-  const nomeCategoriaNormalizado = toNaturalPtBrText(categoryName).trim();
-  const nomePaiNormalizado = toNaturalPtBrText(parentName).trim();
+  const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
+  const normalizedParentName = toNaturalPtBrText(parentName).trim();
 
   let partialMetaDescription = "";
 
-  if (nomeCategoriaNormalizado !== "") {
-    partialMetaDescription = nomePaiNormalizado
-      ? `${nomeCategoriaNormalizado} em ${nomePaiNormalizado}`
-      : `${nomeCategoriaNormalizado} em Ribeirão Preto SP`;
+  if (normalizedCategoryName !== "") {
+    partialMetaDescription = normalizedParentName
+      ? `${normalizedCategoryName} em ${normalizedParentName}`
+      : `${normalizedCategoryName} em ${chosenLocation}`;
   }
 
   partialMetaDescription = partialMetaDescription.replace("/", " e ");
   partialMetaDescription = partialMetaDescription.replace("\\", " e ");
   partialMetaDescription = toNaturalPtBrText(partialMetaDescription);
 
-  return `${termoInicialEscolhido} ${partialMetaDescription} ${termoFinalEscolhido} Somos a maior loja de Ribeirão Preto São Paulo`;
+  return `${chosenOpeningTerm} ${partialMetaDescription} ${chosenClosingTerm} Somos a maior loja de Ribeirão Preto São Paulo`;
 }
 
-export function getKeywordCategoria(
-  opNomeFamilia: string,
-  opNomeGrupo: string,
-  opNomeSubgrupo: string,
+export function getCategoryKeyword(
+  familyName: string,
+  groupName: string,
+  subgroupName: string,
 ): string {
-  const keyword = `${opNomeFamilia} ${opNomeGrupo} ${opNomeSubgrupo}`;
+  const keyword = `${familyName} ${groupName} ${subgroupName}`;
 
   return getKeywordBase(keyword).trim();
 }

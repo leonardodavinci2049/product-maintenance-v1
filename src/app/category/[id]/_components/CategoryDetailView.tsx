@@ -23,8 +23,8 @@ import {
 import { Label } from "@/components/ui/label";
 import type { CategoryDetail } from "@/services/db/category/types/category-list.types";
 import {
-  getDescriptionCategoria,
-  getTitleCategoria,
+  getCategoryDescription,
+  getCategoryTitle,
 } from "@/utils/meta-tag-generation-algorithm/seo-meta-category";
 
 interface CategoryDetailViewProps {
@@ -158,8 +158,8 @@ export function CategoryDetailView({ category }: CategoryDetailViewProps) {
 
     const generatedValue =
       editState.field === "META_TITLE"
-        ? getTitleCategoria(editState.taxonomyName, editState.parentName)
-        : getDescriptionCategoria(editState.taxonomyName, editState.parentName);
+        ? getCategoryTitle(editState.taxonomyName, editState.parentName)
+        : getCategoryDescription(editState.taxonomyName, editState.parentName);
 
     if (!generatedValue.trim()) {
       toast.error("Nao foi possivel gerar o conteudo automaticamente");

@@ -31,8 +31,8 @@ import {
 } from "@/components/ui/table";
 import type { CategoryListItem } from "@/services/db/category/types/category-list.types";
 import {
-  getDescriptionCategoria,
-  getTitleCategoria,
+  getCategoryDescription,
+  getCategoryTitle,
 } from "@/utils/meta-tag-generation-algorithm/seo-meta-category";
 
 interface CategoryListTableProps {
@@ -140,8 +140,8 @@ export function CategoryListTable({ categories }: CategoryListTableProps) {
 
     const generatedValue =
       editState.field === "META_TITLE"
-        ? getTitleCategoria(editState.taxonomyName, editState.parentName)
-        : getDescriptionCategoria(editState.taxonomyName, editState.parentName);
+        ? getCategoryTitle(editState.taxonomyName, editState.parentName)
+        : getCategoryDescription(editState.taxonomyName, editState.parentName);
 
     if (!generatedValue.trim()) {
       toast.error("Não foi possível gerar o conteúdo automaticamente");
