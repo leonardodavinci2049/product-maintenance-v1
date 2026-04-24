@@ -1,4 +1,4 @@
-const TERMOS_INICIAIS = [
+const CALL_TO_ACTION = [
   "Confira ofertas de",
   "Confira as melhores ofertas de",
   "Aproveite a promoção de",
@@ -11,7 +11,7 @@ const TERMOS_INICIAIS = [
   "Venha conferir, temos as melhores ofertas em",
 ];
 
-const TERMOS_FINAIS = [
+const CLOSING_KEYWORDS = [
   "confira as ofertas.",
   "ótimos preços!",
   "aproveite o menor preços.",
@@ -22,6 +22,11 @@ const TERMOS_FINAIS = [
   "excelente oferta.",
   "economize compre mais barato.",
   "venha fazer ótimos negócios. Aproveite!",
+];
+
+export const BUSINESS_LOCATION = [
+  "Ribeirão Preto São Paulo",
+  "em Ribeirão Preto SP",
 ];
 
 export const PT_BR_LOWER_CONNECTORS = new Set([
@@ -63,44 +68,46 @@ export function toNaturalPtBrText(value: string): string {
     .join(" ");
 }
 
-function extrairCadastrarKeywords(nome: string): string {
-  let nomeBase = nome.trim().toLowerCase();
-  let nomeCompleto = "";
+function formatTitleCaseKeywords(name: string): string {
+  let remainingName = name.trim().toLowerCase();
+  let formattedName = "";
 
-  while (nomeBase.trim() !== "") {
-    const posicaoEspaco = nomeBase.indexOf(" ");
-    const palavra =
-      posicaoEspaco > -1 ? nomeBase.slice(0, posicaoEspaco + 1) : nomeBase;
+  while (remainingName.trim() !== "") {
+    const spacePosition = remainingName.indexOf(" ");
+    const word =
+      spacePosition > -1
+        ? remainingName.slice(0, spacePosition + 1)
+        : remainingName;
 
-    let termo = palavra.trim();
+    let term = word.trim();
 
-    if (termo.length > 2 && termo !== "das" && termo !== "dos") {
-      termo = palavra.charAt(0).toUpperCase() + palavra.slice(1);
+    if (term.length > 2 && term !== "das" && term !== "dos") {
+      term = word.charAt(0).toUpperCase() + word.slice(1);
     }
 
-    const empresa = termo.trim().toLowerCase();
+    const lowerTerm = term.trim().toLowerCase();
 
-    if (empresa === "ltda") {
-      termo = "LTDA";
+    if (lowerTerm === "ltda") {
+      term = "LTDA";
     }
 
-    if (empresa === "me") {
-      termo = "ME";
+    if (lowerTerm === "me") {
+      term = "ME";
     }
 
-    if (empresa === "sa") {
-      termo = "SA";
+    if (lowerTerm === "sa") {
+      term = "SA";
     }
 
-    nomeCompleto = `${nomeCompleto} ${termo.trim()}`;
-    nomeBase = nomeBase.replace(palavra, "");
+    formattedName = `${formattedName} ${term.trim()}`;
+    remainingName = remainingName.replace(word, "");
   }
 
-  return nomeCompleto.trim();
+  return formattedName.trim();
 }
 
-export function getKeywordBase(produtoNome: string): string {
-  let keyword = produtoNome;
+export function getKeywordBase(productName: string): string {
+  let keyword = productName;
 
   keyword = keyword.replaceAll("-", " ");
 
@@ -120,7 +127,7 @@ export function getKeywordBase(produtoNome: string): string {
   keyword = keyword.replaceAll(", dos, ", " dos ");
   keyword = keyword.replaceAll(", e, ", " e ");
 
-  keyword = extrairCadastrarKeywords(keyword);
+  keyword = formatTitleCaseKeywords(keyword);
 
   if (keyword.length > 0 && keyword.at(-1) === ",") {
     keyword = keyword.slice(0, -1);
@@ -129,15 +136,18 @@ export function getKeywordBase(produtoNome: string): string {
   return keyword;
 }
 
-export function sortearTermosMeta(): {
-  termoInicialEscolhido: string;
-  termoFinalEscolhido: string;
+export function drawMetaTerms(): {
+  chosenOpeningTerm: string;
+  chosenClosingTerm: string;
+  chosenLocation: string;
 } {
-  const indiceInicial = Math.floor(Math.random() * 10);
-  const indiceFinal = Math.floor(Math.random() * 10);
+  const openingIndex = Math.floor(Math.random() * CALL_TO_ACTION.length);
+  const closingIndex = Math.floor(Math.random() * CLOSING_KEYWORDS.length);
+  const locationIndex = Math.floor(Math.random() * BUSINESS_LOCATION.length);
 
   return {
-    termoInicialEscolhido: TERMOS_INICIAIS[indiceInicial],
-    termoFinalEscolhido: TERMOS_FINAIS[indiceFinal],
+    chosenOpeningTerm: CALL_TO_ACTION[openingIndex],
+    chosenClosingTerm: CLOSING_KEYWORDS[closingIndex],
+    chosenLocation: BUSINESS_LOCATION[locationIndex],
   };
 }
