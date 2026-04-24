@@ -5,13 +5,15 @@ import {
 } from "./seo-meta-shared";
 
 export function getProductTitle(productName: string): string {
+  const { chosenLocation } = drawMetaTerms();
+
   let metaTitle = "";
 
   metaTitle = productName.replace("/", " e ");
   metaTitle = metaTitle.replace("\\", " e ");
   metaTitle = toNaturalPtBrText(metaTitle);
 
-  return `${metaTitle} em Ribeirão Preto`;
+  return `${metaTitle} ${chosenLocation}`;
 }
 
 export function getProductDescription(
@@ -20,7 +22,8 @@ export function getProductDescription(
   groupName: string,
   _subgroupName: string,
 ): string {
-  const { chosenOpeningTerm, chosenClosingTerm } = drawMetaTerms();
+  const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
+    drawMetaTerms();
 
   const normalizedProductName = toNaturalPtBrText(productName);
   const normalizedFamily = toNaturalPtBrText(familyName).trim();
@@ -32,7 +35,7 @@ export function getProductDescription(
     normalizedProductName,
     normalizedGroup,
     chosenClosingTerm,
-    "Somos a maior loja de Ribeirão Preto São Paulo",
+    chosenLocation,
   ]
     .filter(Boolean)
     .join(" ");
