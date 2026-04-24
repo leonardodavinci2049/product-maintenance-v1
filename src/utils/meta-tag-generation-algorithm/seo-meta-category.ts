@@ -1,6 +1,8 @@
 import {
+  buildMetaSemanticTail,
   drawMetaTerms,
   getKeywordBase,
+  replacePathSeparators,
   toNaturalPtBrText,
 } from "./seo-meta-shared";
 
@@ -8,7 +10,7 @@ export function getCategoryTitle(
   categoryName: string,
   parentName: string,
 ): string {
-  const { chosenLocation } = drawMetaTerms();
+  const { chosenLocation } = drawMetaTerms("category");
 
   const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
   const normalizedParentName = toNaturalPtBrText(parentName).trim();
@@ -19,19 +21,22 @@ export function getCategoryTitle(
     partialMetaTitle = `${normalizedCategoryName} departamento de ${normalizedParentName}`;
   }
 
-  partialMetaTitle = partialMetaTitle.replace("/", " e ");
-  partialMetaTitle = partialMetaTitle.replace("\\", " e ");
-  partialMetaTitle = toNaturalPtBrText(partialMetaTitle);
+  partialMetaTitle = toNaturalPtBrText(replacePathSeparators(partialMetaTitle));
 
-  return `${partialMetaTitle} ${chosenLocation}  `;
+  return [partialMetaTitle, chosenLocation].filter(Boolean).join(" ").trim();
 }
 
 export function getCategoryDescription(
   categoryName: string,
   parentName: string,
 ): string {
-  const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
-    drawMetaTerms();
+  const {
+    chosenBenefitTerm,
+    chosenOpeningTerm,
+    chosenLocation,
+    chosenProofTerm,
+    chosenUrgencyTerm,
+  } = drawMetaTerms("category");
 
   const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
   const normalizedParentName = toNaturalPtBrText(parentName).trim();
@@ -41,14 +46,23 @@ export function getCategoryDescription(
   if (normalizedCategoryName !== "") {
     partialMetaDescription = normalizedParentName
       ? `${normalizedCategoryName} em ${normalizedParentName}`
-      : `${normalizedCategoryName} em ${chosenLocation}`;
+      : normalizedCategoryName;
   }
 
-  partialMetaDescription = partialMetaDescription.replace("/", " e ");
-  partialMetaDescription = partialMetaDescription.replace("\\", " e ");
-  partialMetaDescription = toNaturalPtBrText(partialMetaDescription);
+  partialMetaDescription = toNaturalPtBrText(
+    replacePathSeparators(partialMetaDescription),
+  );
+  const semanticTail = buildMetaSemanticTail(
+    chosenBenefitTerm,
+    chosenProofTerm,
+    chosenUrgencyTerm,
+    chosenLocation,
+  );
 
-  return `${chosenOpeningTerm} ${partialMetaDescription} ${chosenClosingTerm} ${chosenLocation}`;
+  return [chosenOpeningTerm, partialMetaDescription, semanticTail]
+    .filter(Boolean)
+    .join(" ")
+    .trim();
 }
 
 export function getCategoryKeyword(
