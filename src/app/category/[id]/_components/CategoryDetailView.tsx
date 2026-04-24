@@ -36,6 +36,7 @@ type EditField = "META_TITLE" | "META_DESCRIPTION" | "ANOTACOES";
 type EditState = {
   categoryId: number;
   taxonomyName: string;
+  parentName: string;
   field: EditField;
   value: string;
   categoryLevels: [string, string, string];
@@ -75,7 +76,6 @@ function extractCategoryLevels(
 
   return [taxonomy, "", ""];
 }
-
 function EditableTextBlock({
   label,
   value,
@@ -115,6 +115,7 @@ export function CategoryDetailView({ category }: CategoryDetailViewProps) {
     setEditState({
       categoryId: category.ID_TAXONOMY,
       taxonomyName: category.TAXONOMIA ?? `#${category.ID_TAXONOMY}`,
+      parentName: category.TAXONOMIA_FATHER?.trim() ?? "",
       field,
       value:
         (field === "META_TITLE"
@@ -157,17 +158,8 @@ export function CategoryDetailView({ category }: CategoryDetailViewProps) {
 
     const generatedValue =
       editState.field === "META_TITLE"
-        ? getTitleCategoria(
-            editState.categoryLevels[0],
-            editState.categoryLevels[1],
-            editState.categoryLevels[2],
-          )
-        : getDescriptionCategoria(
-            editState.taxonomyName,
-            editState.categoryLevels[0],
-            editState.categoryLevels[1],
-            editState.categoryLevels[2],
-          );
+        ? getTitleCategoria(editState.taxonomyName, editState.parentName)
+        : getDescriptionCategoria(editState.taxonomyName, editState.parentName);
 
     if (!generatedValue.trim()) {
       toast.error("Nao foi possivel gerar o conteudo automaticamente");

@@ -44,6 +44,7 @@ type EditField = "META_TITLE" | "META_DESCRIPTION" | "ANOTACOES";
 type EditState = {
   categoryId: number;
   taxonomyName: string;
+  parentName: string;
   field: EditField;
   value: string;
   categoryLevels: [string, string, string];
@@ -86,7 +87,6 @@ function extractCategoryLevels(
 
   return [taxonomy, "", ""];
 }
-
 export function CategoryListTable({ categories }: CategoryListTableProps) {
   const [editState, setEditState] = useState<EditState | null>(null);
   const [isPending, startTransition] = useTransition();
@@ -97,6 +97,7 @@ export function CategoryListTable({ categories }: CategoryListTableProps) {
     setEditState({
       categoryId: category.ID_TAXONOMY,
       taxonomyName: category.TAXONOMIA ?? `#${category.ID_TAXONOMY}`,
+      parentName: category.TAXONOMIA_FATHER?.trim() ?? "",
       field,
       value:
         (field === "META_TITLE"
@@ -139,17 +140,8 @@ export function CategoryListTable({ categories }: CategoryListTableProps) {
 
     const generatedValue =
       editState.field === "META_TITLE"
-        ? getTitleCategoria(
-            editState.categoryLevels[0],
-            editState.categoryLevels[1],
-            editState.categoryLevels[2],
-          )
-        : getDescriptionCategoria(
-            editState.taxonomyName,
-            editState.categoryLevels[0],
-            editState.categoryLevels[1],
-            editState.categoryLevels[2],
-          );
+        ? getTitleCategoria(editState.taxonomyName, editState.parentName)
+        : getDescriptionCategoria(editState.taxonomyName, editState.parentName);
 
     if (!generatedValue.trim()) {
       toast.error("Não foi possível gerar o conteúdo automaticamente");

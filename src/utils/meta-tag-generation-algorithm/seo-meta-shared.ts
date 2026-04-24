@@ -1,4 +1,4 @@
-const TERMOS_INICIAIS = [
+const CALL_TO_ACTION = [
   "Confira ofertas de",
   "Confira as melhores ofertas de",
   "Aproveite a promoção de",
@@ -11,7 +11,7 @@ const TERMOS_INICIAIS = [
   "Venha conferir, temos as melhores ofertas em",
 ];
 
-const TERMOS_FINAIS = [
+const LAST_KEYWORDS = [
   "confira as ofertas.",
   "ótimos preços!",
   "aproveite o menor preços.",
@@ -137,7 +137,7 @@ export function sortearTermosMeta(): {
   const indiceFinal = Math.floor(Math.random() * 10);
 
   return {
-    termoInicialEscolhido: TERMOS_INICIAIS[indiceInicial],
-    termoFinalEscolhido: TERMOS_FINAIS[indiceFinal],
+    termoInicialEscolhido: CALL_TO_ACTION[indiceInicial],
+    termoFinalEscolhido: LAST_KEYWORDS[indiceFinal],
   };
 }

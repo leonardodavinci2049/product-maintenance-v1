@@ -18,29 +18,24 @@ export function getDescriptionProduto(
   opNomeProduto: string,
   opNomeFamilia: string,
   opNomeGrupo: string,
-  opNomeSubgrupo: string,
+  _opNomeSubgrupo: string,
 ): string {
   const { termoInicialEscolhido, termoFinalEscolhido } = sortearTermosMeta();
 
   const nomeProdutoNormalizado = toNaturalPtBrText(opNomeProduto);
-  const familiaNormalizada = toNaturalPtBrText(opNomeFamilia);
-  const grupoNormalizado = toNaturalPtBrText(opNomeGrupo);
-  const subgrupoNormalizado = toNaturalPtBrText(opNomeSubgrupo);
+  const familiaNormalizada = toNaturalPtBrText(opNomeFamilia).trim();
+  const grupoNormalizado = toNaturalPtBrText(opNomeGrupo).trim();
 
-  const categoriaCompleta = [
-    familiaNormalizada,
+  return [
+    termoInicialEscolhido,
+    familiaNormalizada ? `${familiaNormalizada} para` : "",
+    nomeProdutoNormalizado,
     grupoNormalizado,
-    subgrupoNormalizado,
+    termoFinalEscolhido,
+    "Somos a maior loja de Ribeirão Preto São Paulo",
   ]
-    .map((item) => item.trim())
     .filter(Boolean)
     .join(" ");
-
-  const contextoCategoria = categoriaCompleta
-    ? `${categoriaCompleta} para `
-    : "";
-
-  return `${termoInicialEscolhido} ${contextoCategoria}${nomeProdutoNormalizado} ${termoFinalEscolhido} Somos a maior loja de Ribeirão Preto São Paulo`;
 }
 
 export function getKeywordProduto(opNome: string): string {
