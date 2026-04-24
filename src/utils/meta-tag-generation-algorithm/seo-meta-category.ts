@@ -48,7 +48,7 @@ export function getCategoryDescription(
   partialMetaDescription = partialMetaDescription.replace("\\", " e ");
   partialMetaDescription = toNaturalPtBrText(partialMetaDescription);
 
-  return `${chosenOpeningTerm} ${partialMetaDescription} ${chosenClosingTerm} Somos a maior loja de Ribeirão Preto São Paulo`;
+  return `${chosenOpeningTerm} ${partialMetaDescription} ${chosenClosingTerm} ${chosenLocation}`;
 }
 
 export function getCategoryKeyword(
