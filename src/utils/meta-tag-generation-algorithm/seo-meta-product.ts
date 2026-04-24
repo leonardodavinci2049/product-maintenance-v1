@@ -6,7 +6,7 @@ import {
 } from "./seo-meta-shared";
 
 export function getProductTitle(productName: string): string {
-  const { chosenLocation } = drawMetaTerms();
+  const { chosenLocation } = drawMetaTerms("product");
 
   const metaTitle = toNaturalPtBrText(replacePathSeparators(productName));
 
@@ -20,7 +20,7 @@ export function getProductDescription(
   subgroupName: string,
 ): string {
   const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
-    drawMetaTerms();
+    drawMetaTerms("product");
 
   const normalizedProductName = toNaturalPtBrText(productName);
   const normalizedFamily = toNaturalPtBrText(familyName).trim();

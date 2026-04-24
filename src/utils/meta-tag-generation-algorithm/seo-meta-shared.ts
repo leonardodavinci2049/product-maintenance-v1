@@ -1,34 +1,33 @@
-const CALL_TO_ACTION = [
-  "Confira ofertas de",
-  "Confira as melhores ofertas de",
-  "Aproveite a promoção de",
-  "Aproveite e compre agora",
-  "Economize comprando agora",
-  "Encontre aqui",
-  "Confira os menores preços em",
-  "Confira ofertas e promoções de ",
-  "Visite e veja nossas promoções para",
-  "Venha conferir, temos as melhores ofertas em",
-];
+import { BUSINESS_LOCATION } from "./seo-meta-business-location";
+import {
+  CATEGORY_CALL_TO_ACTION,
+  PRODUCT_CALL_TO_ACTION,
+} from "./seo-meta-call-to-action";
+import {
+  CATEGORY_CLOSING_KEYWORDS,
+  PRODUCT_CLOSING_KEYWORDS,
+} from "./seo-meta-closing-keywords";
 
-const CLOSING_KEYWORDS = [
-  "confira as ofertas.",
-  "ótimos preços!",
-  "aproveite o menor preços.",
-  "menores preços.",
-  "aproveite e compre Agora o Seu!",
-  "entrega Garantida.",
-  "economize compare preços.",
-  "excelente oferta.",
-  "economize compre mais barato.",
-  "venha fazer ótimos negócios. Aproveite!",
-];
+export type MetaPageContext = "product" | "category";
 
-export const BUSINESS_LOCATION = [
-  "Ribeirão Preto São Paulo",
-  "em Ribeirão Preto SP",
-  "Somos a maior loja de Ribeirão Preto São Paulo",
-];
+export {
+  BUSINESS_LOCATION,
+  CATEGORY_CALL_TO_ACTION,
+  CATEGORY_CLOSING_KEYWORDS,
+  PRODUCT_CALL_TO_ACTION,
+  PRODUCT_CLOSING_KEYWORDS,
+};
+
+const META_TERM_POOLS = {
+  category: {
+    closingTerms: CATEGORY_CLOSING_KEYWORDS,
+    openingTerms: CATEGORY_CALL_TO_ACTION,
+  },
+  product: {
+    closingTerms: PRODUCT_CLOSING_KEYWORDS,
+    openingTerms: PRODUCT_CALL_TO_ACTION,
+  },
+} as const;
 
 export const PT_BR_LOWER_CONNECTORS = new Set([
   "a",
@@ -165,18 +164,20 @@ export function getKeywordBase(productName: string): string {
   return keyword;
 }
 
-export function drawMetaTerms(): {
+export function drawMetaTerms(context: MetaPageContext = "product"): {
   chosenOpeningTerm: string;
   chosenClosingTerm: string;
   chosenLocation: string;
 } {
-  const openingIndex = Math.floor(Math.random() * CALL_TO_ACTION.length);
-  const closingIndex = Math.floor(Math.random() * CLOSING_KEYWORDS.length);
+  const { closingTerms, openingTerms } = META_TERM_POOLS[context];
+
+  const openingIndex = Math.floor(Math.random() * openingTerms.length);
+  const closingIndex = Math.floor(Math.random() * closingTerms.length);
   const locationIndex = Math.floor(Math.random() * BUSINESS_LOCATION.length);
 
   return {
-    chosenOpeningTerm: CALL_TO_ACTION[openingIndex],
-    chosenClosingTerm: CLOSING_KEYWORDS[closingIndex],
+    chosenOpeningTerm: openingTerms[openingIndex],
+    chosenClosingTerm: closingTerms[closingIndex],
     chosenLocation: BUSINESS_LOCATION[locationIndex],
   };
 }

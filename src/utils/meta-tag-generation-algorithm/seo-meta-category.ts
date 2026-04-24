@@ -9,7 +9,7 @@ export function getCategoryTitle(
   categoryName: string,
   parentName: string,
 ): string {
-  const { chosenLocation } = drawMetaTerms();
+  const { chosenLocation } = drawMetaTerms("category");
 
   const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
   const normalizedParentName = toNaturalPtBrText(parentName).trim();
@@ -30,7 +30,7 @@ export function getCategoryDescription(
   parentName: string,
 ): string {
   const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
-    drawMetaTerms();
+    drawMetaTerms("category");
 
   const normalizedCategoryName = toNaturalPtBrText(categoryName).trim();
   const normalizedParentName = toNaturalPtBrText(parentName).trim();
