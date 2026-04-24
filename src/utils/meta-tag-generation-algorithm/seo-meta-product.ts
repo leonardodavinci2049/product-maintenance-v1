@@ -1,44 +1,57 @@
 import {
+  buildMetaSemanticTail,
   drawMetaTerms,
   getKeywordBase,
+  replacePathSeparators,
   toNaturalPtBrText,
 } from "./seo-meta-shared";
 
 export function getProductTitle(productName: string): string {
-  const { chosenLocation } = drawMetaTerms();
+  const { chosenLocation } = drawMetaTerms("product");
 
-  let metaTitle = "";
+  const metaTitle = toNaturalPtBrText(replacePathSeparators(productName));
 
-  metaTitle = productName.replace("/", " e ");
-  metaTitle = metaTitle.replace("\\", " e ");
-  metaTitle = toNaturalPtBrText(metaTitle);
-
-  return `${metaTitle} ${chosenLocation}`;
+  return [metaTitle, chosenLocation].filter(Boolean).join(" ").trim();
 }
 
 export function getProductDescription(
   productName: string,
   familyName: string,
   groupName: string,
-  _subgroupName: string,
+  subgroupName: string,
 ): string {
-  const { chosenOpeningTerm, chosenClosingTerm, chosenLocation } =
-    drawMetaTerms();
+  const {
+    chosenBenefitTerm,
+    chosenOpeningTerm,
+    chosenLocation,
+    chosenProofTerm,
+    chosenUrgencyTerm,
+  } = drawMetaTerms("product");
 
   const normalizedProductName = toNaturalPtBrText(productName);
   const normalizedFamily = toNaturalPtBrText(familyName).trim();
   const normalizedGroup = toNaturalPtBrText(groupName).trim();
+  const normalizedSubgroup = toNaturalPtBrText(subgroupName).trim();
+  const normalizedHierarchy = [normalizedGroup, normalizedSubgroup]
+    .filter(Boolean)
+    .join(" ");
+  const semanticTail = buildMetaSemanticTail(
+    chosenBenefitTerm,
+    chosenProofTerm,
+    chosenUrgencyTerm,
+    chosenLocation,
+  );
 
   return [
     chosenOpeningTerm,
     normalizedFamily ? `${normalizedFamily} para` : "",
     normalizedProductName,
-    normalizedGroup,
-    chosenClosingTerm,
-    chosenLocation,
+    normalizedHierarchy,
+    semanticTail,
   ]
     .filter(Boolean)
-    .join(" ");
+    .join(" ")
+    .trim();
 }
 
 export function getProductKeyword(productName: string): string {
